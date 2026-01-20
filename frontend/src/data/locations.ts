@@ -11,10 +11,11 @@ export interface Location {
 export const tzuyangLocations: Location[] = [
   {
     name: 'Jeonju Food Festival',
-    lat: 37.5665,
-    lng: 126.9780,
-    address: '123 Jeonju St, Jeonju, South Korea',
-    description: 'Famous for grilled meats!'
+    lat: 37.51995190496975,
+    lng: 127.02608583727064,
+    address: '26 Nonhyeon-ro 151-gil, Gangnam District, Seoul, South Korea',
+    videoUrl: 'https://www.youtube.com/watch?v=PcwjmL-aJxg',
+    description: 'Tonkatsu'
   },
   {
     name: 'Street Food Stall',
