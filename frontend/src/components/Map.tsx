@@ -1,9 +1,8 @@
 import React from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { LatLngExpression } from 'leaflet';
 import { tzuyangLocations } from '../data/locations';
-import { Marker, Popup } from 'react-leaflet';
 
 const seoul: LatLngExpression = [37.5665, 126.9780]; // Seoul coordinates
 
@@ -20,15 +19,15 @@ const Map: React.FC = () => {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
             {tzuyangLocations.map((location, index) => (
-                <Marker key={index} position={[location.lat, location.lng]}>
-                    <Popup>
-                        <strong>{location.name}</strong>
-                        <br />
-                        {location.address}
-                        <br />
-                        {location.description}
-                    </Popup>
-                </Marker>
+                <Marker 
+                    key={index} 
+                    position={[location.lat, location.lng]}
+                    eventHandlers = {{
+                        click: () => {
+                            console.log(`Marker for ${location.name} clicked`); 
+                        }
+                    }}
+                />
             ))}
             </MapContainer>
         </div>
