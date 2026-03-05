@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { LatLngExpression } from 'leaflet';
 import { tzuyangLocations } from '../data/locations';
@@ -19,15 +19,16 @@ const Map: React.FC = () => {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
             {tzuyangLocations.map((location, index) => (
-                <Marker 
-                    key={index} 
-                    position={[location.lat, location.lng]}
-                    eventHandlers = {{
-                        click: () => {
-                            console.log(`Marker for ${location.name} clicked`); 
-                        }
-                    }}
-                />
+                <Marker key={index} position={[location.lat, location.lng]}>
+                    <Popup>
+                        <strong>{location.name}</strong>
+                        <br />
+                        {location.address}
+                        <br />
+                        {location.description}
+                    </Popup>
+                </Marker>
+                    
             ))}
             </MapContainer>
         </div>
