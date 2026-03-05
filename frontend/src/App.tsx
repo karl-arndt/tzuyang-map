@@ -6,8 +6,8 @@ import SidePanel from './components/SidePanel';
 function App() {
   return (
     <div id='parent'>
-      <Map />
       <SidePanel />
+      <Map />
     </div>
   );
 }
