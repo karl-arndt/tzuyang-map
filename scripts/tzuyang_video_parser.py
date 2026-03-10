@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import os
 import googleapiclient.discovery
+import json
 
 load_dotenv()
 
@@ -16,6 +17,8 @@ tzuyang_vlog_id = youtube.channels().list(part="id", forHandle=tzuyang_vlog_chan
 main_channel_data = youtube.channels().list(part="contentDetails", id=tzuyang_main_id).execute()
 main_uploads_playlist_id = main_channel_data["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
 
+video_details = []
+
 page_token = None
 
 while True: 
@@ -24,7 +27,18 @@ while True:
     for video in main_videos:
         video_id = video["snippet"]["resourceId"]["videoId"]
         video_title = video["snippet"]["title"]
+        video_url = f"https://www.youtube.com/watch?v={video_id}"
+        video_published_at = video["snippet"]["publishedAt"]
+        video_details.append({
+            "video_id": video_id,
+            "video_title": video_title,
+            "video_url": video_url,
+            "video_published_at": video_published_at
+        })
         print(f"{video_id}: {video_title}")
     page_token = main_videos_raw.get("nextPageToken")
     if not page_token:
         break
+    
+with open("tzuyang_main_videos.json", "w") as f:
+    json.dump(video_details, f, indent=4)
