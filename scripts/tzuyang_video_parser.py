@@ -39,6 +39,6 @@ while True:
     page_token = main_videos_raw.get("nextPageToken")
     if not page_token:
         break
-    
-with open("tzuyang_main_videos.json", "w") as f:
+
+with open("data/tzuyang_main_videos.json", "w") as f:
     json.dump(video_details, f, indent=4)
