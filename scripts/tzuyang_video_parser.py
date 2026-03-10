@@ -17,10 +17,12 @@ tzuyang_vlog_id = youtube.channels().list(part="id", forHandle=tzuyang_vlog_chan
 main_channel_data = youtube.channels().list(part="contentDetails", id=tzuyang_main_id).execute()
 main_uploads_playlist_id = main_channel_data["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
 
+vlog_channel_data = youtube.channels().list(part="contentDetails", id=tzuyang_vlog_id).execute()
+vlog_uploads_playlist_id = vlog_channel_data["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
+
 video_details = []
 
 page_token = None
-
 while True: 
     main_videos_raw = youtube.playlistItems().list(part="snippet", playlistId=main_uploads_playlist_id, maxResults=50, pageToken=page_token).execute()
     main_videos = main_videos_raw["items"]
@@ -35,10 +37,28 @@ while True:
             "video_url": video_url,
             "video_published_at": video_published_at
         })
-        print(f"{video_id}: {video_title}")
     page_token = main_videos_raw.get("nextPageToken")
     if not page_token:
         break
 
-with open("data/tzuyang_main_videos.json", "w") as f:
+page_token = None
+while True:
+    vlog_videos_raw = youtube.playlistItems().list(part="snippet", playlistId=vlog_uploads_playlist_id, maxResults=50, pageToken=page_token).execute()
+    vlog_videos = vlog_videos_raw["items"]
+    for video in vlog_videos:
+        video_id = video["snippet"]["resourceId"]["videoId"]
+        video_title = video["snippet"]["title"]
+        video_url = f"https://www.youtube.com/watch?v={video_id}"
+        video_published_at = video["snippet"]["publishedAt"]
+        video_details.append({
+            "video_id": video_id,
+            "video_title": video_title,
+            "video_url": video_url,
+            "video_published_at": video_published_at
+        })
+    page_token = vlog_videos_raw.get("nextPageToken")
+    if not page_token:
+        break    
+
+with open("data/tzuyang_videos.json", "w") as f:
     json.dump(video_details, f, indent=4)
