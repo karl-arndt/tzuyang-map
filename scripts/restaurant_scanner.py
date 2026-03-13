@@ -38,7 +38,7 @@ def scan_video(video_url):
                 pts = bbox
                 for i in range(4):
                     cv2.line(frame, tuple(pts[i]), tuple(pts[(i + 1) % 4]), (0, 255, 0), 2)
-                cv2.imshow('Frame', frame)
+                cv2.imshow(f"Frame: {frame_count}, Probability: {prob}", frame)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
     cap.release()
