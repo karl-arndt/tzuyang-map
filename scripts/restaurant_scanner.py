@@ -32,7 +32,9 @@ def scan_video(video_url):
         results = reader.readtext(frame)
 
         for bbox, text, prob in results:
-            if re.search(r'(서울|부산|대구|인천|경기|도로|로|길|[0-9])', text):
+            if re.search(r'(서울|부산|대구|인천|경기|도로|로|길|Street|Drive|Avenue|Lane|Way|Las Vegas)', text):
+                if (prob < 0.5):
+                    continue
                 print(f"Found restaurant-related text: {text}")
 
                 pts = bbox
@@ -40,11 +42,18 @@ def scan_video(video_url):
                     cv2.line(frame, tuple(pts[i]), tuple(pts[(i + 1) % 4]), (0, 255, 0), 2)
                 cv2.imshow(f"Frame: {frame_count}, Probability: {prob}", frame)
                 cv2.waitKey(0)
+                print("Q to Quit, Enter to Continue, Space to Approve:")
+                if input().lower() == 'q':
+                    exit(0)
+                if input() == ' ':
+                    print(f"Approved: {text}")
+                if input() == '':
+                    continue
                 cv2.destroyAllWindows()
     cap.release()
 
 def test_scan_video():
-    video_url = "https://www.youtube.com/watch?v=GntD1JSubh4"
+    video_url = "https://www.youtube.com/watch?v=RSZVP4M1bQ0"
     scan_video(video_url)
 
 test_scan_video()
