@@ -41,11 +41,13 @@ def scan_video(video_url):
                 for i in range(4):
                     cv2.line(frame, tuple(pts[i]), tuple(pts[(i + 1) % 4]), (0, 255, 0), 2)
                 cv2.imshow(f"Frame: {frame_count}, Probability: {prob}", frame)
+                print("Q to Quit, C to Continue, Space to Approve:")
                 cv2.waitKey(0)
-                print("Q to Quit, Enter to Continue, Space to Approve:")
                 if input().lower() == 'q':
                     exit(0)
-                if input() == ' ':
+                if input().lower() == 'c':
+                    print(f"Continuing: {text}")
+                if input().lower() == ' ':
                     print(f"Approved: {text}")
                 if input() == '':
                     continue
