@@ -32,7 +32,7 @@ def scan_video(video_url):
         results = reader.readtext(frame)
 
         for bbox, text, prob in results:
-            if re.search(r'(서울|부산|대구|인천|경기|도로|로|길|0-9)', text):
+            if re.search(r'(서울|부산|대구|인천|경기|도로|로|길|[0-9])', text):
                 print(f"Found restaurant-related text: {text}")
 
                 pts = bbox
