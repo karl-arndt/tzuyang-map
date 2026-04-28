@@ -3,6 +3,8 @@ export interface Location {
     lat: number;
     lng: number;
     address: string;
+    phone?: string;
+    website?: string;
     imageUrl?: string;
     videoUrl?: string;
     description?: string;
